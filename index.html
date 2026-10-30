@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#14251d">
+  <meta name="description" content="Find your people, build real projects, and grow your coding skills with the Ejire-Tech community.">
+  <title>Ejire-Tech | Make things. Meet your people.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17241d;
+      --forest: #14251d;
+      --paper: #f7f6f0;
+      --white: #fffefa;
+      --green: #b7ee62;
+      --green-dark: #287348;
+      --coral: #ff755d;
+      --line: #dedfd5;
+      --muted: #73796f;
+      --display: "Space Grotesk", sans-serif;
+      --body: "DM Sans", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 16px/1.55 var(--body);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .wrap { width: min(1160px, calc(100% - 64px)); margin-inline: auto; }
+
+    .hero {
+      position: relative;
+      min-height: 710px;
+      min-height: min(820px, 100svh);
+      overflow: hidden;
+      color: var(--white);
+      background-color: var(--forest);
+      background-image: url("https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=2200&q=85");
+      background-position: center 43%;
+      background-size: cover;
+      isolation: isolate;
+    }
+    .hero::before {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      background: rgba(13, 30, 22, .72);
+      content: "";
+    }
+    .site-header {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 92px;
+      border-bottom: 1px solid rgba(255,255,255,.2);
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      font: 700 20px/1 var(--display);
+      letter-spacing: 0;
+    }
+    .brand-mark {
+      display: grid;
+      width: 35px;
+      aspect-ratio: 1;
+      place-items: center;
+      border-radius: 10px 10px 10px 3px;
+      background: var(--green);
+      color: var(--forest);
+      font: 700 18px/1 var(--display);
+    }
+    .brand span:last-child { color: var(--green); }
+    .nav-links { display: flex; align-items: center; gap: 35px; }
+    .nav-links a:not(.nav-join) { color: rgba(255,255,255,.82); font-size: 14px; }
+    .nav-links a:not(.nav-join):hover { color: var(--green); }
+    .nav-join, .button {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      gap: 11px;
+      padding: 0 20px;
+      border: 0;
+      border-radius: 4px;
+      background: var(--green);
+      color: var(--forest);
+      font-size: 14px;
+      font-weight: 700;
+      transition: background .2s ease, transform .2s ease;
+      cursor: pointer;
+    }
+    .nav-join:hover, .button:hover { background: #cff58f; transform: translateY(-2px); }
+    .menu-toggle {
+      display: none;
+      width: 44px;
+      height: 44px;
+      padding: 11px;
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 4px;
+      background: transparent;
+      color: white;
+      cursor: pointer;
+    }
+    .menu-toggle svg { display: block; width: 20px; height: 20px; }
+
+    .hero-content {
+      display: grid;
+      min-height: 600px;
+      align-content: center;
+      justify-items: start;
+      padding: 77px 0 112px;
+    }
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { width: 25px; height: 2px; background: currentColor; content: ""; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      max-width: 760px;
+      margin: 20px 0 21px;
+      font: 600 clamp(54px, 7.7vw, 94px)/.99 var(--display);
+      letter-spacing: 0;
+    }
+    h1 span { color: var(--green); }
+    .hero-copy { max-width: 490px; margin-bottom: 29px; color: rgba(255,255,255,.8); font-size: 17px; }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; }
+    .text-link { display: inline-flex; align-items: center; gap: 9px; color: white; font-size: 14px; font-weight: 600; }
+    .text-link svg, .button svg, .nav-join svg { width: 16px; height: 16px; }
+    .hero-note {
+      position: absolute;
+      right: max(32px, calc((100vw - 1160px) / 2));
+      bottom: 39px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: rgba(255,255,255,.82);
+      font-size: 12px;
+    }
+    .online-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(183,238,98,.18); }
+
+    .intro-strip { border-bottom: 1px solid var(--line); background: var(--white); }
+    .intro-inner { display: flex; min-height: 105px; align-items: center; justify-content: space-between; gap: 30px; }
+    .intro-inner p { max-width: 430px; margin: 0; color: var(--muted); font-size: 14px; }
+    .community-facts { display: flex; align-items: center; gap: 36px; }
+    .fact { display: grid; gap: 1px; }
+    .fact strong { font: 600 21px/1.2 var(--display); }
+    .fact span { color: var(--muted); font-size: 11px; }
+
+    .section { padding: 102px 0; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 30px; margin-bottom: 37px; }
+    .section-heading .eyebrow { color: var(--green-dark); }
+    h2 { margin: 13px 0 0; font: 600 clamp(34px, 4vw, 51px)/1.08 var(--display); letter-spacing: 0; }
+    .section-lead { max-width: 350px; margin: 0 0 4px; color: var(--muted); font-size: 14px; }
+    .tracks { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .track {
+      min-height: 257px;
+      padding: 28px 30px 28px 0;
+      border-right: 1px solid var(--line);
+    }
+    .track + .track { padding-left: 30px; }
+    .track:last-child { border-right: 0; }
+    .track-icon {
+      display: grid;
+      width: 43px;
+      height: 43px;
+      place-items: center;
+      border-radius: 4px;
+      background: #e7f2d8;
+      color: var(--green-dark);
+    }
+    .track:nth-child(2) .track-icon { background: #ffe8de; color: #b64e3c; }
+    .track:nth-child(3) .track-icon { background: #e7e9f4; color: #525a88; }
+    .track-icon svg { width: 21px; height: 21px; }
+    .track h3 { margin: 25px 0 8px; font: 600 21px/1.2 var(--display); }
+    .track p { max-width: 300px; margin-bottom: 19px; color: var(--muted); font-size: 13px; }
+    .track-link { display: inline-flex; align-items: center; gap: 7px; color: var(--green-dark); font-size: 13px; font-weight: 700; }
+    .track-link svg { width: 15px; height: 15px; }
+
+    .sessions { background: #e9eee5; }
+    .sessions-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 90px; align-items: start; }
+    .sessions-aside { position: sticky; top: 35px; }
+    .sessions-aside h2 { max-width: 360px; }
+    .sessions-aside > p { max-width: 340px; margin: 18px 0 25px; color: #646d63; font-size: 14px; }
+    .sessions-aside .button { background: var(--forest); color: white; }
+    .sessions-aside .button:hover { background: #294d3a; }
+    .event-list { border-top: 1px solid #cdd4c9; }
+    .event {
+      display: grid;
+      grid-template-columns: 61px 1fr auto;
+      align-items: center;
+      gap: 20px;
+      min-height: 108px;
+      border-bottom: 1px solid #cdd4c9;
+    }
+    .event-date { display: grid; justify-items: center; gap: 0; }
+    .event-date strong { font: 600 23px/1.1 var(--display); }
+    .event-date span { color: #6a7369; font-size: 10px; font-weight: 700; letter-spacing: .08em; }
+    .event-info h3 { margin: 0 0 4px; font: 600 16px/1.3 var(--display); }
+    .event-info p { margin: 0; color: #6a7369; font-size: 12px; }
+    .event-rsvp {
+      display: grid;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      border: 1px solid #b9c3b6;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+      transition: .2s ease;
+    }
+    .event-rsvp:hover, .event-rsvp[aria-pressed="true"] { border-color: var(--forest); background: var(--forest); color: white; }
+    .event-rsvp svg { width: 16px; height: 16px; }
+
+    .join { padding: 91px 0; background: var(--forest); color: white; }
+    .join-inner { display: grid; grid-template-columns: 1fr .8fr; align-items: center; gap: 80px; }
+    .join .eyebrow { color: var(--green); }
+    .join h2 { max-width: 550px; margin-top: 15px; }
+    .join-copy { max-width: 440px; margin: 16px 0 0; color: rgba(255,255,255,.68); font-size: 14px; }
+    .join-form { display: grid; gap: 13px; }
+    .join-form label { color: rgba(255,255,255,.78); font-size: 12px; font-weight: 600; }
+    .input-row { display: flex; gap: 9px; }
+    .join-form input {
+      min-width: 0;
+      min-height: 50px;
+      flex: 1;
+      padding: 0 14px;
+      border: 1px solid rgba(255,255,255,.32);
+      border-radius: 4px;
+      outline: 0;
+      background: rgba(255,255,255,.07);
+      color: white;
+    }
+    .join-form input::placeholder { color: rgba(255,255,255,.5); }
+    .join-form input:focus { border-color: var(--green); }
+    .join-form .button { min-height: 50px; white-space: nowrap; }
+    .form-status { min-height: 22px; margin: 0; color: var(--green); font-size: 12px; }
+
+    footer { padding: 27px 0; background: #101c16; color: rgba(255,255,255,.68); }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    footer .brand { color: white; font-size: 16px; }
+    footer .brand-mark { width: 29px; font-size: 15px; }
+    footer p { margin: 0; font-size: 11px; }
+    .footer-links { display: flex; gap: 20px; font-size: 12px; }
+    .footer-links a:hover { color: var(--green); }
+
+    @media (max-width: 760px) {
+      .wrap { width: min(100% - 40px, 560px); }
+      .hero { min-height: 720px; min-height: min(790px, 100svh); background-position: 57% center; }
+      .site-header { min-height: 76px; }
+      .brand { font-size: 18px; }
+      .menu-toggle { display: block; }
+      .nav-links {
+        position: absolute;
+        top: 67px;
+        right: 0;
+        left: 0;
+        display: none;
+        align-items: stretch;
+        gap: 0;
+        padding: 9px 18px 18px;
+        border: 1px solid rgba(255,255,255,.18);
+        background: var(--forest);
+      }
+      .nav-links.is-open { display: grid; }
+      .nav-links a:not(.nav-join) { padding: 12px 0; }
+      .nav-join { margin-top: 7px; }
+      .hero-content { min-height: 620px; padding: 90px 0 115px; }
+      h1 { font-size: clamp(53px, 13vw, 76px); }
+      .hero-copy { max-width: 380px; font-size: 15px; }
+      .hero-note { right: 20px; bottom: 23px; left: 20px; justify-content: flex-end; font-size: 11px; }
+      .intro-inner { min-height: auto; align-items: start; flex-direction: column; padding-block: 25px; gap: 20px; }
+      .community-facts { width: 100%; justify-content: space-between; gap: 10px; }
+      .section { padding: 72px 0; }
+      .section-heading { align-items: start; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+      .section-lead { max-width: 440px; }
+      .tracks { grid-template-columns: 1fr; }
+      .track, .track + .track { min-height: auto; padding: 23px 0; border-right: 0; border-bottom: 1px solid var(--line); }
+      .track:last-child { border-bottom: 0; }
+      .track h3 { margin-top: 16px; }
+      .sessions-layout { grid-template-columns: 1fr; gap: 36px; }
+      .sessions-aside { position: static; }
+      .event { grid-template-columns: 48px 1fr auto; gap: 12px; min-height: 96px; }
+      .event-info h3 { font-size: 14px; }
+      .event-info p { font-size: 11px; }
+      .join { padding: 72px 0; }
+      .join-inner { grid-template-columns: 1fr; gap: 30px; }
+      .input-row { flex-direction: column; }
+      .footer-inner { align-items: flex-start; flex-wrap: wrap; }
+      .footer-inner > p { order: 3; width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <header class="site-header wrap">
+        <a class="brand" href="#top" aria-label="Ejire-Tech home">
+          <span class="brand-mark" aria-hidden="true">e.</span>
+          <span>ejire-<span>tech</span></span>
+        </a>
+        <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="main-nav">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <nav class="nav-links" id="main-nav" aria-label="Main navigation">
+          <a href="#community">The community</a>
+          <a href="#sessions">Code together</a>
+          <a href="#join" class="nav-join">Find your people <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </nav>
+      </header>
+      <div class="hero-content wrap">
+        <div class="eyebrow">A community for curious minds</div>
+        <h1 id="hero-title">Make things.<br>Meet your <span>people.</span></h1>
+        <p class="hero-copy">A place to ask the messy questions, share what you’re making, and get better at building software, together.</p>
+        <div class="hero-actions">
+          <a class="button" href="#join">Come build with us <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="text-link" href="#community">See what we do <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg></a>
+        </div>
+      </div>
+      <div class="hero-note"><span class="online-dot" aria-hidden="true"></span> Your next favorite collaborator is out there.</div>
+    </section>
+
+    <section class="intro-strip" aria-label="About Ejire-Tech">
+      <div class="intro-inner wrap">
+        <p>Good code starts with good company. Bring your questions, your half-finished projects, and your whole self.</p>
+        <div class="community-facts" aria-label="Community focus areas">
+          <div class="fact"><strong>Learn</strong><span>at your own pace</span></div>
+          <div class="fact"><strong>Build</strong><span>with real people</span></div>
+          <div class="fact"><strong>Share</strong><span>what you discover</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="community" aria-labelledby="community-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">Find your way in</div>
+            <h2 id="community-title">There’s room for<br>your kind of curious.</h2>
+          </div>
+          <p class="section-lead">Whether you’re writing your first line or shipping your fifth side project, you belong in the room.</p>
+        </div>
+        <div class="tracks">
+          <article class="track">
+            <div class="track-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg></div>
+            <h3>Learn out loud</h3>
+            <p>Get unstuck with friendly help, thoughtful walkthroughs, and people who remember being new.</p>
+            <a class="track-link" href="#sessions">Explore learning sessions <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </article>
+          <article class="track">
+            <div class="track-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 9h8M8 13h5M8 17h3"/><path d="m16 14 2 2 3-4"/></svg></div>
+            <h3>Make it real</h3>
+            <p>Turn the tutorial into something yours. Find a project partner, get feedback, and ship a first version.</p>
+            <a class="track-link" href="#sessions">See what we’re building <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </article>
+          <article class="track">
+            <div class="track-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M10 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM20 8v6M23 11h-6"/></svg></div>
+            <h3>Grow together</h3>
+            <p>Share your perspective, celebrate small wins, and meet the people who make the work feel lighter.</p>
+            <a class="track-link" href="#join">Meet the community <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section sessions" id="sessions" aria-labelledby="sessions-title">
+      <div class="sessions-layout wrap">
+        <div class="sessions-aside">
+          <div class="eyebrow">Good things happen together</div>
+          <h2 id="sessions-title">A little time.<br>A lot of progress.</h2>
+          <p>Drop into a focused session, bring a question, or just listen in. There’s no perfect level to show up at.</p>
+          <a class="button" href="#join">Get session updates <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="event-list" aria-label="Community session formats">
+          <article class="event">
+            <div class="event-date"><strong>01</strong><span>LEARN</span></div>
+            <div class="event-info"><h3>Build-along room</h3><p>Follow a small idea from blank screen to working prototype.</p></div>
+            <button class="event-rsvp" type="button" aria-label="Save Build-along room" aria-pressed="false" title="Save session"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12a1 1 0 0 1 1 1v16l-7-4-7 4V5a1 1 0 0 1 1-1Z"/></svg></button>
+          </article>
+          <article class="event">
+            <div class="event-date"><strong>02</strong><span>MAKE</span></div>
+            <div class="event-info"><h3>Side-project studio</h3><p>Bring your in-progress work and borrow some momentum.</p></div>
+            <button class="event-rsvp" type="button" aria-label="Save Side-project studio" aria-pressed="false" title="Save session"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12a1 1 0 0 1 1 1v16l-7-4-7 4V5a1 1 0 0 1 1-1Z"/></svg></button>
+          </article>
+          <article class="event">
+            <div class="event-date"><strong>03</strong><span>SHARE</span></div>
+            <div class="event-info"><h3>Open code clinic</h3><p>Talk through a bug, a design choice, or whatever’s on your mind.</p></div>
+            <button class="event-rsvp" type="button" aria-label="Save Open code clinic" aria-pressed="false" title="Save session"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12a1 1 0 0 1 1 1v16l-7-4-7 4V5a1 1 0 0 1 1-1Z"/></svg></button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="join" id="join" aria-labelledby="join-title">
+      <div class="join-inner wrap">
+        <div>
+          <div class="eyebrow">Your next step starts here</div>
+          <h2 id="join-title">Come as you are.<br>Leave with a little more.</h2>
+          <p class="join-copy">Tell us where to reach you and we’ll help you find a good first step into the Ejire-Tech community.</p>
+        </div>
+        <form class="join-form" id="join-form">
+          <label for="email">Your email address</label>
+          <div class="input-row">
+            <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+            <button class="button" type="submit">I’m interested <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          </div>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="footer-inner wrap">
+      <a class="brand" href="#top" aria-label="Ejire-Tech, back to top"><span class="brand-mark" aria-hidden="true">e.</span><span>ejire-<span>tech</span></span></a>
+      <p>Make things. Meet your people.</p>
+      <nav class="footer-links" aria-label="Footer navigation"><a href="#community">Community</a><a href="#sessions">Sessions</a><a href="#join">Get in touch</a></nav>
+    </div>
+  </footer>
+  <script>
+    const menuButton = document.querySelector('.menu-toggle');
+    const navigation = document.querySelector('.nav-links');
+
+    menuButton.addEventListener('click', () => {
+      const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!isOpen));
+      menuButton.setAttribute('aria-label', isOpen ? 'Open navigation' : 'Close navigation');
+      navigation.classList.toggle('is-open', !isOpen);
+    });
+
+    navigation.addEventListener('click', (event) => {
+      if (event.target.closest('a')) {
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.setAttribute('aria-label', 'Open navigation');
+        navigation.classList.remove('is-open');
+      }
+    });
+
+    document.querySelectorAll('.event-rsvp').forEach((button) => {
+      button.addEventListener('click', () => {
+        const isSaved = button.getAttribute('aria-pressed') === 'true';
+        button.setAttribute('aria-pressed', String(!isSaved));
+        button.setAttribute('aria-label', `${isSaved ? 'Save' : 'Unsave'} ${button.closest('.event').querySelector('h3').textContent}`);
+      });
+    });
+
+    document.querySelector('#join-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      document.querySelector('#form-status').textContent = 'Thanks for your interest. We’ll be in touch soon.';
+      event.currentTarget.reset();
+    });
+  </script>
+</body>
+</html>

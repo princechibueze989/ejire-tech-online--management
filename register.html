@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071b3b">
+  <title>Create an account | Ejire Tech</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body class="auth-page">
+  <header class="site-header wrap auth-header">
+    <a class="brand" href="index.html" aria-label="Ejire Tech home">
+      <img class="brand-logo" src="ejire-tech-logo.svg" alt="Ejire Tech, Building Tech Community">
+    </a>
+    <a class="auth-header-link" href="login.html">Already registered? Log in</a>
+  </header>
+  <main class="auth-main">
+    <section class="auth-panel" aria-labelledby="register-title">
+      <div class="auth-kicker">Start learning with Ejire Tech</div>
+      <h1 id="register-title">Create your account</h1>
+      <p class="auth-intro">Register your interest and choose a learning path to get started.</p>
+      <form class="auth-form" id="register-form">
+        <div class="auth-field">
+          <label for="name">Full name</label>
+          <input id="name" name="name" type="text" autocomplete="name" required>
+        </div>
+        <div class="auth-field">
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email" autocomplete="email" required>
+        </div>
+        <div class="auth-field">
+          <label for="course">Choose a course</label>
+          <select id="course" name="course" required>
+            <option value="" disabled selected>Select a learning path</option>
+            <option value="Full Stack Development">Full Stack Development</option>
+            <option value="Frontend Development">Frontend Development</option>
+            <option value="Vibe Coding & Google AdMob">Vibe Coding &amp; Google AdMob</option>
+            <option value="UI/UX & Graphics Design">UI/UX &amp; Graphics Design</option>
+            <option value="Mobile App Development">Mobile App Development</option>
+            <option value="AI & Automation">AI &amp; Automation</option>
+            <option value="AI Voice Agent Development">AI Voice Agent Development</option>
+          </select>
+        </div>
+        <div class="auth-field">
+          <label for="password">Create a password</label>
+          <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+        </div>
+        <button class="button" type="submit">Create account</button>
+        <p class="auth-status" role="status" aria-live="polite"></p>
+      </form>
+      <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
+    </section>
+  </main>
+  <footer class="auth-footer">Building Tech Community.</footer>
+</body>
+</html>

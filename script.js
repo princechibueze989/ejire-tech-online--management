@@ -40,8 +40,65 @@ if (menuButton && navigation) {
     }
 
     document.querySelectorAll('.auth-form').forEach((form) => {
-      form.addEventListener('submit', (event) => {
+      form.addEventListener('submit', async (event) => {
         event.preventDefault();
-        form.querySelector('[role="status"]').textContent = 'This demo form is not connected to account services yet.';
+        const status = form.querySelector('[role="status"]');
+        const submit = form.querySelector('[type="submit"]');
+        const client = window.EJIRE_SUPABASE_CLIENT;
+        if (!client) {
+          status.textContent = 'Account services are not configured yet. Please contact Ejire Tech support.';
+          return;
+        }
+
+        const values = new FormData(form);
+        submit.disabled = true;
+        status.textContent = 'Connecting securely...';
+        try {
+          if (form.id === 'login-form') {
+            const { data, error } = await client.auth.signInWithPassword({
+              email: values.get('email'),
+              password: values.get('password'),
+            });
+            if (error || !data.user) {
+              status.textContent = 'Unable to sign in. Check your email and password, then try again.';
+              return;
+            }
+            const { data: profile, error: profileError } = await client
+              .from('profiles')
+              .select('role')
+              .eq('id', data.user.id)
+              .maybeSingle();
+            if (profileError || profile?.role !== 'student') {
+              await client.auth.signOut();
+              status.textContent = 'This portal is available to student accounts only.';
+              return;
+            }
+            window.location.href = 'student.html';
+            return;
+          }
+
+          const { data, error } = await client.auth.signUp({
+            email: values.get('email'),
+            password: values.get('password'),
+            options: {
+              data: {
+                full_name: values.get('name'),
+                selected_course: values.get('course'),
+              },
+            },
+          });
+          if (error || !data.user) {
+            status.textContent = 'Account creation could not be completed. Check the details or contact support.';
+            return;
+          }
+          status.textContent = data.session
+            ? 'Account created. You can now sign in.'
+            : 'Account created. Check your email to confirm it, then sign in.';
+          form.reset();
+        } catch {
+          status.textContent = 'Account services are temporarily unavailable. Please try again.';
+        } finally {
+          submit.disabled = false;
+        }
       });
     });

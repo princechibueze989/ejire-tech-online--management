@@ -1,0 +1,4 @@
+project_id = "ejire-tech-online-management"
+
+[functions.student-ai]
+verify_jwt = true

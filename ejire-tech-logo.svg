@@ -14,6 +14,6 @@
     <circle cx="204" cy="83" r="7" fill="#fff" stroke-width="5"/>
     <path d="M28 52c7-8 13-9 20-4l14 9c5 3 6 9 2 13l-9 8c-3 3-3 7 0 10l10 10c3 3 7 3 10 0l8-8c4-4 10-3 13 2l9 14c4 7 2 14-5 19" stroke-width="6"/>
   </g>
-  <text x="235" y="75" fill="#071b3b" font-family="Arial, sans-serif" font-size="61" font-weight="800" letter-spacing="-3">Ejire Tech</text>
+  <text x="235" y="75" fill="#071b3b" font-family="Arial, sans-serif" font-size="61" font-weight="800" letter-spacing="-3" textLength="265" lengthAdjust="spacingAndGlyphs">Ejire Tech</text>
   <text x="238" y="111" fill="#071b3b" font-family="Arial, sans-serif" font-size="25" font-weight="700">...Building Tech Community</text>
 </svg>

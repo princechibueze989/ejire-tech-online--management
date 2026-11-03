@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#071b3b">
+	<title>Create a student account | Ejire Tech</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="auth.css">
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+	<script src="../supabase-client.js"></script>
+	<script src="auth.js" defer></script>
+</head>
+<body class="auth-page">
+	<header class="auth-header">
+		<a class="auth-brand" href="../index.html">Ejire Tech</a>
+		<a class="auth-header-link" href="login.html">Already registered? Log in</a>
+	</header>
+	<main class="auth-main">
+		<section class="auth-panel auth-panel-wide" aria-labelledby="register-title">
+			<p class="auth-kicker">Start learning with Ejire Tech</p>
+			<h1 id="register-title">Create your student account</h1>
+			<p class="auth-intro">Tell us what you want to learn and the tools you have. You can update your learning plans later.</p>
+			<p class="auth-note">This page creates student accounts only. Instructor access is provided separately by invitation and administrator approval.</p>
+			<form class="auth-form" id="register-form">
+				<section class="auth-section" aria-labelledby="account-section-title">
+					<div class="auth-section-heading"><h2 id="account-section-title">Your account</h2><p>Use an email address you can access to confirm your account.</p></div>
+					<div class="auth-grid">
+						<div class="auth-field">
+							<label for="name">Full name</label>
+							<input id="name" name="name" type="text" autocomplete="name" minlength="2" maxlength="100" required>
+						</div>
+						<div class="auth-field">
+							<label for="email">Email address</label>
+							<input id="email" name="email" type="email" autocomplete="email" maxlength="254" required>
+						</div>
+						<div class="auth-field">
+							<label for="password">Create a password</label>
+							<div class="password-input"><input id="password" name="password" type="password" autocomplete="new-password" minlength="10" required><button class="password-toggle" type="button" data-password-toggle aria-controls="password" aria-pressed="false">Show</button></div>
+							<small id="password-strength" aria-live="polite">Use at least 10 characters. A memorable passphrase works well.</small>
+						</div>
+						<div class="auth-field">
+							<label for="confirm-password">Confirm password</label>
+							<div class="password-input"><input id="confirm-password" name="confirm-password" type="password" autocomplete="new-password" minlength="10" required><button class="password-toggle" type="button" data-password-toggle aria-controls="confirm-password" aria-pressed="false">Show</button></div>
+						</div>
+					</div>
+				</section>
+
+				<section class="auth-section" aria-labelledby="learning-section-title">
+					<div class="auth-section-heading"><h2 id="learning-section-title">Your learning profile</h2><p>Choose your focus and tell us a little about your starting point.</p></div>
+					<div class="auth-grid">
+						<div class="auth-field">
+							<label for="course">What do you want to study?</label>
+							<select id="course" name="course" required>
+								<option value="" disabled selected>Select a learning path</option>
+								<option value="Full Stack Development">Full Stack Development</option>
+								<option value="Frontend Development">Frontend Development</option>
+								<option value="Vibe Coding &amp; Google AdMob">Vibe Coding &amp; Google AdMob</option>
+								<option value="UI/UX &amp; Graphics Design">UI/UX &amp; Graphics Design</option>
+								<option value="Mobile App Development">Mobile App Development</option>
+								<option value="AI &amp; Automation">AI &amp; Automation</option>
+								<option value="AI Voice Agent Development">AI Voice Agent Development</option>
+							</select>
+						</div>
+						<div class="auth-field">
+							<label for="experience-level">How much experience do you have?</label>
+							<select id="experience-level" name="experience_level" required>
+								<option value="" disabled selected>Select your experience</option>
+								<option>New to this</option>
+								<option>Some experience</option>
+								<option>Comfortable with the basics</option>
+								<option>Experienced</option>
+							</select>
+						</div>
+						<div class="auth-field">
+							<label for="current-status">Which best describes you?</label>
+							<select id="current-status" name="current_status" required>
+								<option value="" disabled selected>Select one</option>
+								<option>Student</option>
+								<option>Working</option>
+								<option>Looking for work</option>
+								<option>Career changer</option>
+								<option>Other</option>
+							</select>
+						</div>
+						<div class="auth-field">
+							<label for="education-level">Current education level <span class="optional">(optional)</span></label>
+							<select id="education-level" name="education_level">
+								<option value="">Prefer not to say</option>
+								<option>Secondary school</option>
+								<option>College or university</option>
+								<option>Graduate studies</option>
+								<option>Other</option>
+							</select>
+						</div>
+						<div class="auth-field" id="class-year-field" hidden>
+							<label for="class-year">Current class or year <span class="optional">(optional)</span></label>
+							<input id="class-year" name="class_year" type="text" maxlength="60" placeholder="For example, Year 2">
+						</div>
+						<div class="auth-field">
+							<label for="age-group">Age group <span class="optional">(optional)</span></label>
+							<select id="age-group" name="age_group">
+								<option value="">Prefer not to say</option>
+								<option>Under 18</option>
+								<option>18-24</option>
+								<option>25-34</option>
+								<option>35-44</option>
+								<option>45+</option>
+							</select>
+						</div>
+						<div class="auth-field auth-field-full">
+							<label for="learning-goal">What would you like to achieve?</label>
+							<textarea id="learning-goal" name="learning_goal" rows="3" minlength="10" maxlength="500" placeholder="For example, build my first portfolio website or prepare for a new role." required></textarea>
+						</div>
+					</div>
+				</section>
+
+				<section class="auth-section" aria-labelledby="setup-section-title">
+					<div class="auth-section-heading"><h2 id="setup-section-title">Your learning setup</h2><p>This helps us understand what resources may work best for you.</p></div>
+					<div class="auth-grid">
+						<div class="auth-field">
+							<label for="device-count">How many devices can you use for learning?</label>
+							<select id="device-count" name="device_count" required>
+								<option value="" disabled selected>Select number of devices</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3 or more">3 or more</option>
+							</select>
+						</div>
+						<div class="auth-field">
+							<label for="device-type">Which device do you use most?</label>
+							<select id="device-type" name="device_type" required>
+								<option value="" disabled selected>Select your primary device</option>
+								<option>Smartphone</option>
+								<option>Laptop</option>
+								<option>Desktop computer</option>
+								<option>Tablet</option>
+								<option>Shared device</option>
+							</select>
+						</div>
+						<div class="auth-field">
+							<label for="internet-access">How reliable is your internet access? <span class="optional">(optional)</span></label>
+							<select id="internet-access" name="internet_access">
+								<option value="">Prefer not to say</option>
+								<option>Reliable</option>
+								<option>Sometimes unreliable</option>
+								<option>Limited</option>
+							</select>
+						</div>
+					</div>
+				</section>
+
+				<button class="auth-button" type="submit">Create student account</button>
+				<p class="auth-status" role="status" aria-live="polite"></p>
+			</form>
+			<p class="auth-switch">Already registered? <a href="login.html">Log in</a></p>
+		</section>
+	</main>
+	<footer class="auth-footer">Building Tech Community.</footer>
+</body>
+</html>

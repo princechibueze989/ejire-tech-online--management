@@ -1,5 +1,6 @@
 (() => {
 	const supabase = window.ejireSupabase;
+	const allowlistedAdminEmail = "dosusamson27@gmail.com";
 	const avatarBucket = "student-avatars";
 	const avatarTypes = {
 		"image/jpeg": "jpg",
@@ -90,7 +91,11 @@
 		return data;
 	}
 
-	function redirectByRole(role) {
+	function redirectByRole(role, email) {
+		if (email?.toLowerCase() === allowlistedAdminEmail) {
+			window.location.replace("../admin/dashboard.html");
+			return;
+		}
 		if (role === "admin") {
 			window.location.replace("../admin/dashboard.html");
 			return;
@@ -152,9 +157,13 @@
 				});
 				if (error) throw error;
 				if (!data.user) throw new Error("The account service did not return a signed-in user.");
+				if (data.user.email?.toLowerCase() === allowlistedAdminEmail && data.user.email_confirmed_at) {
+					redirectByRole("", data.user.email);
+					return;
+				}
 				const profile = await getCurrentProfile(data.user.id);
 				if (!profile) throw new Error("Your profile is not available yet. Contact an administrator.");
-				redirectByRole(profile.role);
+				redirectByRole(profile.role, data.user.email);
 			} catch (error) {
 				showStatus(status, friendlyError(error), "error");
 				setBusy(button, false);
@@ -198,8 +207,12 @@
 				if (!data.session) return;
 				const user = await getCurrentUser();
 				if (!user) return;
+				if (user.email?.toLowerCase() === allowlistedAdminEmail && user.email_confirmed_at) {
+					redirectByRole("", user.email);
+					return;
+				}
 				const profile = await getCurrentProfile(user.id);
-				if (profile) redirectByRole(profile.role);
+				if (profile) redirectByRole(profile.role, user.email);
 			}).catch((error) => showStatus(status, friendlyError(error), "error"));
 		}
 	}
@@ -302,7 +315,7 @@
 					if (!profile) {
 						throw new Error("Your account was created, but its student profile is not ready. Contact support before trying again.");
 					}
-					redirectByRole(profile.role);
+					redirectByRole(profile.role, data.user.email);
 					return;
 				}
 				password.value = "";
@@ -406,7 +419,7 @@
 			const profile = await getCurrentProfile(user.id);
 			if (!profile) throw new Error("Your profile is not available yet. Contact an administrator.");
 			if (profile.role !== "student") {
-				redirectByRole(profile.role);
+				redirectByRole(profile.role, user.email);
 				return;
 			}
 
@@ -564,7 +577,7 @@
 			const profile = await getCurrentProfile(user.id);
 			if (!profile) throw new Error("Your profile is not available yet. Contact an administrator.");
 			if (profile.role !== requestedRole || profile.role !== "instructor") {
-				redirectByRole(profile.role);
+				redirectByRole(profile.role, user.email);
 				return;
 			}
 			title.textContent = "Instructor area";

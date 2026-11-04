@@ -24,6 +24,9 @@
 				<a href="#instructors" data-view="instructors"><span aria-hidden="true">&#9679;</span>Instructors</a>
 				<a href="#courses" data-view="courses"><span aria-hidden="true">&#9633;</span>Courses</a>
 				<a href="#enrollments" data-view="enrollments"><span aria-hidden="true">&#9776;</span>Enrollments</a>
+				<a href="#payments" data-view="payments"><span aria-hidden="true">&#9678;</span>Payments</a>
+				<a href="#announcements" data-view="announcements"><span aria-hidden="true">&#9993;</span>Announcements</a>
+				<a href="#reports" data-view="reports"><span aria-hidden="true">&#9636;</span>Reports</a>
 				<a href="#settings" data-view="settings"><span aria-hidden="true">&#9881;</span>Settings</a>
 			</nav>
 			<button class="sidebar-logout" id="logout-button" type="button"><span aria-hidden="true">&#8594;</span>Log out</button>
@@ -31,7 +34,13 @@
 		<div class="admin-main-wrap">
 			<header class="admin-topbar">
 				<button class="sidebar-toggle" id="sidebar-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false"><span></span><span></span><span></span></button>
-				<div><p class="topbar-label">Ejire Tech / Administration</p><p class="admin-identity" id="admin-identity">Administrator</p></div>
+				<span class="admin-avatar" id="admin-avatar" aria-hidden="true">A</span>
+				<div class="topbar-title"><p class="topbar-label">Ejire Tech / Administration</p><p class="admin-identity" id="admin-identity">Administrator</p></div>
+				<div class="global-search-wrap">
+					<label class="global-search"><span class="sr-only">Search students and instructors</span><span aria-hidden="true">&#9906;</span><input id="global-search" type="search" placeholder="Search students and instructors" autocomplete="off" aria-controls="global-search-results" aria-expanded="false"></label>
+					<div class="search-results" id="global-search-results" role="region" aria-label="Directory search results" hidden></div>
+				</div>
+				<span class="admin-role-badge">Administrator</span>
 				<button class="topbar-logout" id="topbar-logout" type="button" aria-label="Log out" title="Log out">&#8594;</button>
 			</header>
 			<main class="admin-content">
@@ -39,34 +48,57 @@
 				<section class="dashboard-view" id="view-overview" data-section="overview" aria-labelledby="overview-title">
 					<div class="view-heading"><div><p class="view-kicker">Overview</p><h1 id="overview-title">Dashboard</h1></div><p class="view-date" id="current-date"></p></div>
 					<div class="stat-grid" aria-label="Platform totals">
-						<article class="stat-card stat-blue"><span>Total Students</span><strong id="total-students">--</strong><small>Student profiles</small></article>
-						<article class="stat-card stat-orange"><span>Total Instructors</span><strong id="total-instructors">--</strong><small>Instructor profiles</small></article>
-						<article class="stat-card stat-green"><span>Total Enrollments</span><strong id="total-enrollments">--</strong><small>Enrollment records</small></article>
-						<article class="stat-card stat-navy"><span>Total Courses</span><strong id="total-courses">7</strong><small>Current learning paths</small></article>
+						<article class="stat-card stat-blue"><span><span aria-hidden="true">&#9679;</span> Total Students</span><strong id="total-students" data-metric="loading">Loading</strong><small>Student profiles</small></article>
+						<article class="stat-card stat-green"><span><span aria-hidden="true">&#9673;</span> Active Students</span><strong id="active-students" data-metric="unavailable">Unavailable</strong><small>Account status is not tracked</small></article>
+						<article class="stat-card stat-orange"><span><span aria-hidden="true">&#9679;</span> Total Instructors</span><strong id="total-instructors" data-metric="loading">Loading</strong><small>Instructor profiles</small></article>
+						<article class="stat-card stat-green"><span><span aria-hidden="true">&#9673;</span> Active Instructors</span><strong id="active-instructors" data-metric="unavailable">Unavailable</strong><small>Account status is not tracked</small></article>
+						<article class="stat-card stat-navy"><span><span aria-hidden="true">&#9633;</span> Total Courses</span><strong id="total-courses" data-metric="unavailable">Unavailable</strong><small>No courses table is defined</small></article>
+						<article class="stat-card stat-green"><span><span aria-hidden="true">&#9633;</span> Active Courses</span><strong id="active-courses" data-metric="unavailable">Unavailable</strong><small>No course status is defined</small></article>
+						<article class="stat-card stat-blue"><span><span aria-hidden="true">&#9776;</span> Total Enrollments</span><strong id="total-enrollments" data-metric="unavailable">Unavailable</strong><small>No enrollment table is defined</small></article>
+						<article class="stat-card stat-orange"><span><span aria-hidden="true">&#9203;</span> Pending Approvals</span><strong id="pending-approvals" data-metric="unavailable">Unavailable</strong><small>No approval status is defined</small></article>
+						<article class="stat-card stat-navy"><span><span aria-hidden="true">&#curren;</span> Total Payments</span><strong id="total-payments" data-metric="unavailable">Unavailable</strong><small>Payment records are not configured</small></article>
+						<article class="stat-card stat-green"><span><span aria-hidden="true">&#8358;</span> Revenue</span><strong id="total-revenue" data-metric="unavailable">Unavailable</strong><small>No payment records are configured</small></article>
 					</div>
+					<p class="data-security-note">Counts reflect only records permitted by Supabase row-level security. Run <a href="admin-access-policies.sql">admin-access-policies.sql</a> in the Supabase SQL Editor to enable owner/admin profile reads. This interface check does not replace database authorization.</p>
 					<div class="overview-lower">
-						<section class="data-panel"><div class="panel-heading"><div><p class="view-kicker">Latest activity</p><h2>Recent enrollments</h2></div><button class="text-action" type="button" data-open-view="enrollments">View all</button></div><div class="table-scroll"><table><thead><tr><th>Course</th><th>Status</th><th>Created</th></tr></thead><tbody id="recent-enrollments"><tr><td colspan="3" class="table-empty">Loading records...</td></tr></tbody></table></div></section>
-						<section class="data-panel path-panel"><div class="panel-heading"><div><p class="view-kicker">Learning paths</p><h2>Available courses</h2></div></div><ul id="overview-course-list" class="course-list"></ul></section>
+						<section class="data-panel"><div class="panel-heading"><div><p class="view-kicker">Recent activity</p><h2>New profiles</h2></div><button class="text-action" type="button" data-open-view="students">View students</button></div><div class="table-scroll"><table><thead><tr><th>Name</th><th>Role</th><th>Created</th></tr></thead><tbody id="recent-profiles"><tr><td colspan="3" class="table-empty">Loading records...</td></tr></tbody></table></div></section>
+						<section class="data-panel path-panel"><div class="panel-heading"><div><p class="view-kicker">Quick actions</p><h2>Common tasks</h2></div></div><div class="quick-actions"><button type="button" data-open-view="students">Browse students</button><button type="button" data-open-view="instructors">Browse instructors</button><button type="button" data-open-view="enrollments">Review enrollments</button><button type="button" data-open-view="reports">Open reports</button></div></section>
 					</div>
 				</section>
 				<section class="dashboard-view" id="view-students" data-section="students" aria-labelledby="students-title" hidden>
-					<div class="view-heading"><div><p class="view-kicker">Directory</p><h1 id="students-title">Students</h1></div></div>
-					<p class="section-note">Email addresses are not available through the current browser-safe profile access. No privileged Auth data is exposed here.</p>
-					<section class="data-panel"><div class="table-scroll"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Created</th></tr></thead><tbody id="students-table"><tr><td colspan="4" class="table-empty">Open this section to load students.</td></tr></tbody></table></div></section>
+					<div class="view-heading"><div><p class="view-kicker">Directory</p><h1 id="students-title">Students</h1></div><span class="result-count" id="students-count"></span></div>
+					<p class="section-note">Profiles are read using the signed-in Supabase session. Email, account activation, and course assignment require additional safe database access that is not present in the current schema.</p>
+					<div class="table-toolbar"><label>Search name<input id="student-search" type="search" placeholder="Find a student"></label><label>Sort by<select id="student-sort"><option value="created_at">Newest first</option><option value="full_name">Name A–Z</option></select></label></div>
+					<section class="data-panel"><div class="table-scroll"><table><thead><tr><th>Student</th><th>Email</th><th>Course</th><th>Enrollment status</th><th>Registration date</th><th>Account status</th><th>Details</th></tr></thead><tbody id="students-table"><tr><td colspan="7" class="table-empty">Open this section to load students.</td></tr></tbody></table></div><div class="pagination"><button type="button" id="students-previous" disabled>Previous</button><span id="students-page">Page 1</span><button type="button" id="students-next" disabled>Next</button></div></section>
 				</section>
 				<section class="dashboard-view" id="view-instructors" data-section="instructors" aria-labelledby="instructors-title" hidden>
 					<div class="view-heading"><div><p class="view-kicker">Directory</p><h1 id="instructors-title">Instructors</h1></div></div>
-					<p class="section-note">Instructor profiles are read-only in this MVP. Management actions can be added when their workflow is defined.</p>
-					<section class="data-panel"><div class="table-scroll"><table><thead><tr><th>Name</th><th>Role</th><th>Created</th></tr></thead><tbody id="instructors-table"><tr><td colspan="3" class="table-empty">Open this section to load instructors.</td></tr></tbody></table></div></section>
+					<p class="section-note">Instructor records are read-only and limited to the latest 100 profiles. This project has no instructor invitation, assignment, or account-status backend; no mutation controls are exposed.</p>
+					<section class="data-panel"><div class="table-scroll"><table><thead><tr><th>Instructor</th><th>Email</th><th>Category / courses</th><th>Students</th><th>Account status</th><th>Date added</th><th>Details</th></tr></thead><tbody id="instructors-table"><tr><td colspan="7" class="table-empty">Open this section to load instructors.</td></tr></tbody></table></div></section>
 				</section>
 				<section class="dashboard-view" id="view-courses" data-section="courses" aria-labelledby="courses-title" hidden>
 					<div class="view-heading"><div><p class="view-kicker">Catalog</p><h1 id="courses-title">Courses</h1></div></div>
-					<p class="section-note">These learning paths are managed in the frontend until a courses table is established.</p>
-					<div class="course-grid" id="course-grid"></div>
+					<p class="section-note">Course management is unavailable because no courses table or course-management API exists in the checked-in Supabase schema. The public website's registration choices are not treated as database course records.</p>
+					<div class="empty-state"><strong>Course catalog is not connected</strong><p>Connect an authorized courses data model before creating, editing, activating, or assigning courses.</p></div>
 				</section>
 				<section class="dashboard-view" id="view-enrollments" data-section="enrollments" aria-labelledby="enrollments-title" hidden>
 					<div class="view-heading"><div><p class="view-kicker">Learning activity</p><h1 id="enrollments-title">Enrollments</h1></div></div>
-					<section class="data-panel"><div class="table-scroll"><table class="wide-table"><thead><tr><th>Course</th><th>Age group</th><th>Education</th><th>Class year</th><th>Status</th><th>Experience</th><th>Learning goal</th><th>Device access</th><th>Created</th></tr></thead><tbody id="enrollments-table"><tr><td colspan="9" class="table-empty">Open this section to load enrollments.</td></tr></tbody></table></div></section>
+					<div class="empty-state"><strong>Enrollment records are not connected</strong><p>The registration form stores onboarding answers in Supabase Auth metadata. There is no confirmed enrollment table or authorized server-side API to display those records safely.</p></div>
+				</section>
+				<section class="dashboard-view" id="view-payments" data-section="payments" aria-labelledby="payments-title" hidden>
+					<div class="view-heading"><div><p class="view-kicker">Finance</p><h1 id="payments-title">Payments</h1></div></div>
+					<div class="empty-state"><strong>Payment records will appear here once payment processing is connected.</strong><p>No payment records or payment integration are defined in the current project. Revenue is not estimated.</p></div>
+				</section>
+				<section class="dashboard-view" id="view-announcements" data-section="announcements" aria-labelledby="announcements-title" hidden>
+					<div class="view-heading"><div><p class="view-kicker">Communication</p><h1 id="announcements-title">Announcements</h1></div></div>
+					<div class="empty-state"><strong>Announcements are not connected</strong><p>No announcements table or publish workflow exists in the current schema. Publishing is disabled until an authorized backend is added.</p></div>
+				</section>
+				<section class="dashboard-view" id="view-reports" data-section="reports" aria-labelledby="reports-title" hidden>
+					<div class="view-heading"><div><p class="view-kicker">Insights</p><h1 id="reports-title">Reports &amp; analytics</h1></div></div>
+					<div class="report-grid">
+						<section class="data-panel"><div class="panel-heading"><div><p class="view-kicker">Registrations</p><h2>Profile creation over time</h2></div></div><div id="registration-chart" class="chart-area" role="img" aria-label="Student and instructor profile registrations by month"><p class="table-empty">Loading profile data...</p></div></section>
+						<section class="data-panel"><div class="panel-heading"><div><p class="view-kicker">Activity feed</p><h2>Recent profile registrations</h2></div></div><div id="activity-feed" class="activity-feed"><p class="table-empty">Loading recent activity...</p></div></section>
+					</div>
 				</section>
 				<section class="dashboard-view" id="view-settings" data-section="settings" aria-labelledby="settings-title" hidden>
 					<div class="view-heading"><div><p class="view-kicker">Account</p><h1 id="settings-title">Settings</h1></div></div>
@@ -75,5 +107,9 @@
 			</main>
 		</div>
 	</div>
+	<dialog class="detail-dialog" id="profile-dialog" aria-labelledby="profile-dialog-title">
+		<div class="dialog-heading"><div><p class="view-kicker">Profile details</p><h2 id="profile-dialog-title">User profile</h2></div><button type="button" class="dialog-close" data-close-dialog aria-label="Close details">&times;</button></div>
+		<dl class="profile-details" id="profile-details"></dl>
+	</dialog>
 </body>
 </html>

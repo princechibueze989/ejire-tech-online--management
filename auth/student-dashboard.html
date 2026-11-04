@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#071b3b">
+	<title>Student dashboard | Ejire Tech</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="auth.css">
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+	<script src="../supabase-client.js"></script>
+	<script src="auth.js" defer></script>
+</head>
+<body class="auth-page">
+	<header class="auth-header">
+		<a class="auth-brand" href="../index.html">Ejire Tech</a>
+		<button class="auth-header-button" id="dashboard-logout" type="button">Log out</button>
+	</header>
+	<main class="auth-main">
+		<p class="auth-status auth-gate" id="dashboard-gate" role="status" aria-live="polite">Verifying your student account...</p>
+		<section class="auth-panel dashboard-panel" id="student-dashboard" aria-labelledby="dashboard-title" hidden>
+			<p class="auth-kicker">Your learning space</p>
+			<h1 id="dashboard-title">Welcome, <span id="student-name">Student</span></h1>
+			<p class="auth-intro">Your student account and learning profile are ready.</p>
+			<p class="auth-status" id="dashboard-status" role="status" aria-live="polite"></p>
+			<section class="dashboard-avatar-section" aria-labelledby="avatar-title">
+				<div class="dashboard-avatar" id="student-avatar-placeholder" aria-hidden="true">S</div>
+				<img class="dashboard-avatar" id="student-avatar" alt="Your profile picture" hidden>
+				<div class="dashboard-avatar-details">
+					<h2 id="avatar-title">Profile picture <span class="optional">(optional)</span></h2>
+					<p>You can add, change, or remove your picture at any time.</p>
+					<form class="dashboard-avatar-form" id="avatar-form">
+						<div class="auth-field">
+							<label for="avatar-file">Choose a picture</label>
+							<input id="avatar-file" name="avatar" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="avatar-help">
+							<small id="avatar-help">JPG, PNG, or WebP; up to 5 MB.</small>
+						</div>
+						<div class="dashboard-avatar-actions">
+							<button class="auth-button" id="avatar-upload" type="submit" disabled>Upload picture</button>
+							<button class="auth-button auth-button-secondary" id="avatar-remove" type="button" hidden>Remove picture</button>
+						</div>
+					</form>
+				</div>
+			</section>
+			<div class="dashboard-profile">
+				<div class="dashboard-profile-heading"><h2>Your learning profile</h2><p id="student-email"></p></div>
+				<dl>
+					<div><dt>Learning path</dt><dd id="student-course">Loading...</dd></div>
+					<div><dt>Experience</dt><dd id="student-experience">Loading...</dd></div>
+					<div><dt>Your goal</dt><dd id="student-goal">Loading...</dd></div>
+					<div><dt>Devices available</dt><dd id="student-devices">Loading...</dd></div>
+					<div><dt>Current status</dt><dd id="student-status">Loading...</dd></div>
+					<div><dt>Age group</dt><dd id="student-age">Loading...</dd></div>
+					<div><dt>Education level</dt><dd id="student-education">Loading...</dd></div>
+					<div><dt>Class or year</dt><dd id="student-class-year">Loading...</dd></div>
+					<div><dt>Internet access</dt><dd id="student-internet">Loading...</dd></div>
+				</dl>
+			</div>
+			<a class="dashboard-home-link" href="../index.html">Explore learning paths</a>
+		</section>
+	</main>
+	<footer class="auth-footer">Building Tech Community.</footer>
+</body>
+</html>

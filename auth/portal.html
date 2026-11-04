@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071b3b">
+  <title>Your Ejire Tech Area</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="auth.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../supabase-client.js"></script>
+  <script src="auth.js" defer></script>
+</head>
+<body class="auth-page">
+  <header class="auth-header"><a class="auth-brand" href="../index.html">Ejire Tech</a></header>
+  <main class="auth-main">
+    <section class="auth-panel portal-panel" aria-labelledby="portal-title">
+      <p class="auth-kicker">Account access</p>
+      <h1 id="portal-title">Preparing your area</h1>
+      <p class="auth-intro" id="portal-status" role="status" aria-live="polite">Checking your signed-in account...</p>
+      <button class="auth-button" id="portal-logout" type="button">Log out</button>
+    </section>
+  </main>
+  <footer class="auth-footer">Building Tech Community.</footer>
+</body>
+</html>

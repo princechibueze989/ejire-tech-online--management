@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#071b3b">
+	<title>Admin Dashboard | Ejire Tech</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="admin.css">
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+	<script src="../supabase-client.js"></script>
+	<script src="admin.js" defer></script>
+</head>
+<body class="admin-page">
+	<div class="admin-gate" id="admin-gate" role="status" aria-live="polite">Verifying your account...</div>
+	<div class="admin-app" id="admin-app" hidden>
+		<aside class="admin-sidebar" id="admin-sidebar">
+			<a class="admin-brand" href="../index.html"><span class="brand-mark">E</span><span>Ejire Tech<small>Admin Dashboard</small></span></a>
+			<nav class="admin-nav" aria-label="Admin sections">
+				<a href="#overview" data-view="overview" class="is-active"><span aria-hidden="true">&#9632;</span>Overview</a>
+				<a href="#students" data-view="students"><span aria-hidden="true">&#9679;</span>Students</a>
+				<a href="#instructors" data-view="instructors"><span aria-hidden="true">&#9679;</span>Instructors</a>
+				<a href="#courses" data-view="courses"><span aria-hidden="true">&#9633;</span>Courses</a>
+				<a href="#enrollments" data-view="enrollments"><span aria-hidden="true">&#9776;</span>Enrollments</a>
+				<a href="#settings" data-view="settings"><span aria-hidden="true">&#9881;</span>Settings</a>
+			</nav>
+			<button class="sidebar-logout" id="logout-button" type="button"><span aria-hidden="true">&#8594;</span>Log out</button>
+		</aside>
+		<div class="admin-main-wrap">
+			<header class="admin-topbar">
+				<button class="sidebar-toggle" id="sidebar-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+				<div><p class="topbar-label">Ejire Tech / Administration</p><p class="admin-identity" id="admin-identity">Administrator</p></div>
+				<button class="topbar-logout" id="topbar-logout" type="button" aria-label="Log out" title="Log out">&#8594;</button>
+			</header>
+			<main class="admin-content">
+				<p class="dashboard-status" id="dashboard-status" role="status" aria-live="polite"></p>
+				<section class="dashboard-view" id="view-overview" data-section="overview" aria-labelledby="overview-title">
+					<div class="view-heading"><div><p class="view-kicker">Overview</p><h1 id="overview-title">Dashboard</h1></div><p class="view-date" id="current-date"></p></div>
+					<div class="stat-grid" aria-label="Platform totals">
+						<article class="stat-card stat-blue"><span>Total Students</span><strong id="total-students">--</strong><small>Student profiles</small></article>
+						<article class="stat-card stat-orange"><span>Total Instructors</span><strong id="total-instructors">--</strong><small>Instructor profiles</small></article>
+						<article class="stat-card stat-green"><span>Total Enrollments</span><strong id="total-enrollments">--</strong><small>Enrollment records</small></article>
+						<article class="stat-card stat-navy"><span>Total Courses</span><strong id="total-courses">7</strong><small>Current learning paths</small></article>
+					</div>
+					<div class="overview-lower">
+						<section class="data-panel"><div class="panel-heading"><div><p class="view-kicker">Latest activity</p><h2>Recent enrollments</h2></div><button class="text-action" type="button" data-open-view="enrollments">View all</button></div><div class="table-scroll"><table><thead><tr><th>Course</th><th>Status</th><th>Created</th></tr></thead><tbody id="recent-enrollments"><tr><td colspan="3" class="table-empty">Loading records...</td></tr></tbody></table></div></section>
+						<section class="data-panel path-panel"><div class="panel-heading"><div><p class="view-kicker">Learning paths</p><h2>Available courses</h2></div></div><ul id="overview-course-list" class="course-list"></ul></section>
+					</div>
+				</section>
+				<section class="dashboard-view" id="view-students" data-section="students" aria-labelledby="students-title" hidden>
+					<div class="view-heading"><div><p class="view-kicker">Directory</p><h1 id="students-title">Students</h1></div></div>
+					<p class="section-note">Email addresses are not available through the current browser-safe profile access. No privileged Auth data is exposed here.</p>
+					<section class="data-panel"><div class="table-scroll"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Created</th></tr></thead><tbody id="students-table"><tr><td colspan="4" class="table-empty">Open this section to load students.</td></tr></tbody></table></div></section>
+				</section>
+				<section class="dashboard-view" id="view-instructors" data-section="instructors" aria-labelledby="instructors-title" hidden>
+					<div class="view-heading"><div><p class="view-kicker">Directory</p><h1 id="instructors-title">Instructors</h1></div></div>
+					<p class="section-note">Instructor profiles are read-only in this MVP. Management actions can be added when their workflow is defined.</p>
+					<section class="data-panel"><div class="table-scroll"><table><thead><tr><th>Name</th><th>Role</th><th>Created</th></tr></thead><tbody id="instructors-table"><tr><td colspan="3" class="table-empty">Open this section to load instructors.</td></tr></tbody></table></div></section>
+				</section>
+				<section class="dashboard-view" id="view-courses" data-section="courses" aria-labelledby="courses-title" hidden>
+					<div class="view-heading"><div><p class="view-kicker">Catalog</p><h1 id="courses-title">Courses</h1></div></div>
+					<p class="section-note">These learning paths are managed in the frontend until a courses table is established.</p>
+					<div class="course-grid" id="course-grid"></div>
+				</section>
+				<section class="dashboard-view" id="view-enrollments" data-section="enrollments" aria-labelledby="enrollments-title" hidden>
+					<div class="view-heading"><div><p class="view-kicker">Learning activity</p><h1 id="enrollments-title">Enrollments</h1></div></div>
+					<section class="data-panel"><div class="table-scroll"><table class="wide-table"><thead><tr><th>Course</th><th>Age group</th><th>Education</th><th>Class year</th><th>Status</th><th>Experience</th><th>Learning goal</th><th>Device access</th><th>Created</th></tr></thead><tbody id="enrollments-table"><tr><td colspan="9" class="table-empty">Open this section to load enrollments.</td></tr></tbody></table></div></section>
+				</section>
+				<section class="dashboard-view" id="view-settings" data-section="settings" aria-labelledby="settings-title" hidden>
+					<div class="view-heading"><div><p class="view-kicker">Account</p><h1 id="settings-title">Settings</h1></div></div>
+					<section class="data-panel settings-panel"><h2>Signed-in administrator</h2><dl><div><dt>Name</dt><dd id="settings-name">Loading...</dd></div><div><dt>Email</dt><dd id="settings-email">Loading...</dd></div><div><dt>Role</dt><dd>Admin</dd></div></dl><button class="danger-button" type="button" data-logout>Log out</button></section>
+				</section>
+			</main>
+		</div>
+	</div>
+</body>
+</html>

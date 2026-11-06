@@ -11,7 +11,10 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/instructor.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="supabase-client-config.js" defer></script>
   <script type="module" src="js/instructor-local.js"></script>
+  <script type="module" src="js/ai-class-schedule.js"></script>
 </head>
 <body class="instructor-page">
   <header class="instructor-header">
@@ -38,6 +41,7 @@
           <button type="button" data-view="assignments">Assignments &amp; grading</button>
           <button type="button" data-view="quizzes">Quizzes</button>
           <button type="button" data-view="attendance">Attendance</button>
+          <button type="button" data-view="ai-timetable">AI class timetable</button>
           <button type="button" data-view="messages">Messages <span id="unread-count" class="nav-count" hidden>0</span></button>
           <button type="button" data-view="notifications">Notifications <span id="notification-count" class="nav-count" hidden>0</span></button>
           <button type="button" data-view="profile">My profile</button>
@@ -45,7 +49,7 @@
         <p class="sidebar-note">Your workspace only shows courses and learners assigned to you.</p>
       </aside>
       <div class="instructor-content">
-        <div class="instructor-alert instructor-alert--demo" role="note">Demo mode: changes are saved in this browser only. There is no real sign-in, sync, or backend access control.</div>
+        <div class="instructor-alert instructor-alert--demo" role="note">Demo mode: other instructor workspace changes are saved in this browser only. AI class timetable changes require an authenticated instructor account and are saved to Supabase.</div>
         <div class="instructor-alert" id="workspace-status" role="status" aria-live="polite" hidden></div>
         <div id="workspace-content"></div>
       </div>

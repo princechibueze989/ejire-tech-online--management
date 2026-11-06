@@ -26,6 +26,30 @@ function jsonError(message: string, status: number, headers: HeadersInit): Respo
   });
 }
 
+function lagosDateParts(now: Date): { dayOfWeek: number; minuteOfDay: number } {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Africa/Lagos",
+    weekday: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(now);
+  const values = Object.fromEntries(parts.map(({ type, value }) => [type, value]));
+  const weekdays: Record<string, number> = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+  const dayOfWeek = weekdays[values.weekday];
+  const hour = Number(values.hour);
+  const minute = Number(values.minute);
+  if (dayOfWeek === undefined || !Number.isInteger(hour) || !Number.isInteger(minute)) {
+    throw new Error("Could not determine the current Africa/Lagos time.");
+  }
+  return { dayOfWeek, minuteOfDay: hour * 60 + minute };
+}
+
+function timeToMinutes(value: string): number | null {
+  const match = /^([01]\d|2[0-3]):([0-5]\d)/.exec(value);
+  return match ? Number(match[1]) * 60 + Number(match[2]) : null;
+}
+
 Deno.serve(async (request) => {
   const origin = request.headers.get("origin");
   const cors = corsHeaders(origin);
@@ -72,6 +96,45 @@ Deno.serve(async (request) => {
       .maybeSingle();
     if (profileError || profile?.role !== "student") {
       return jsonError("The study assistant is available to student accounts only.", 403, cors);
+    }
+
+    const { data: schedule, error: scheduleError } = await supabase
+      .from("student_ai_class_schedule")
+      .select("day_of_week, start_time, end_time");
+    if (scheduleError) {
+      console.error("Could not read the student AI class schedule", scheduleError);
+      return jsonError("The class timetable could not be verified. The study assistant is paused.", 503, cors);
+    }
+    if (!schedule?.length) {
+      return jsonError("The class timetable has not been configured. The study assistant is paused until an instructor adds class times.", 503, cors);
+    }
+
+    let currentTime: ReturnType<typeof lagosDateParts>;
+    try {
+      currentTime = lagosDateParts(new Date());
+    } catch (error) {
+      console.error("Could not determine the Africa/Lagos time", error);
+      return jsonError("The current class schedule could not be verified. The study assistant is paused.", 503, cors);
+    }
+    const scheduledClass = schedule.some((item) => {
+      const start = timeToMinutes(item.start_time);
+      const end = timeToMinutes(item.end_time);
+      if (
+        !Number.isInteger(item.day_of_week) ||
+        item.day_of_week < 0 ||
+        item.day_of_week > 6 ||
+        start === null ||
+        end === null ||
+        end <= start
+      ) {
+        return true;
+      }
+      return item.day_of_week === currentTime.dayOfWeek &&
+        currentTime.minuteOfDay >= start &&
+        currentTime.minuteOfDay < end;
+    });
+    if (scheduledClass) {
+      return jsonError("The study assistant is paused during scheduled class time. Please come back after your lecture.", 403, cors);
     }
 
     const { data: requestAllowed, error: limitError } = await supabase.rpc("consume_student_ai_request");
